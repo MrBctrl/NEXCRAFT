@@ -189,7 +189,7 @@ nav.scrolled {
     pointer-events: none;
     user-select: none;
 }
-.hero-content { position: relative; z-index: 2; max-width: 820px; }
+.hero-content { position: relative; z-index: 2; max-width: 820px; margin-left: 0; margin-right: 0; }
 
 .hero-tag {
     font-family: 'JetBrains Mono', monospace;
