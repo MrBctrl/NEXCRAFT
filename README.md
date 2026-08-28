@@ -412,3 +412,89 @@ change.
   merely to match this diagram"). `contact/` will make sense once an
   actual form exists — that's a separate decision, not a folder-naming
   one.
+
+## Admin System + Contact Form (protocol sections 5, 17, 18)
+
+### What was built
+- **Real contact form** on the homepage (protocol's MUST-HAVE "reliable
+  contact submission") — Name, Email, Phone, WhatsApp, Company, Project
+  Type, Message. Submits straight to a `messages` table in Supabase
+  (database-first, per protocol 17: the message is stored before anything
+  else happens). Existing mailto/WhatsApp buttons kept as fast
+  alternatives, not replaced.
+- **Admin panel** at `/admin`, gated by Supabase Auth login:
+  - **Dashboard** — message/portfolio/project counts
+  - **Messages** — view every submission, update status (`NEW` →
+    `CONTACTED` → `IN PROGRESS` → `CLOSED` → `ARCHIVED`, exact list from
+    protocol section 18)
+  - **Portfolio** — add / edit / delete / show-hide the graphic design
+    grid items
+  - **Web Projects** — same CRUD for the "Others" supporting web projects
+- **Scoped deliberately**: protocol section 18 explicitly says "do not
+  build this entire CMS before the public portfolio experience is ready"
+  and marks full admin CMS as a LATER-priority item. You asked for it now
+  directly, so I built it — but scoped to exactly what you described
+  (Projects, Messages) plus what's needed to support it. **Not built**:
+  a Media upload library (items take an image path/URL, not a drag-drop
+  uploader) and a Settings panel. Both are natural next additions once
+  you're using this and want them.
+- **The six flagship Worlds are intentionally NOT wired into this admin.**
+  They're Executive-Decision-locked curated experiences (brand colors,
+  copy, showcase captures — all hand-verified against real sources), not
+  simple data records. Exposing them to freeform CRUD risked one wrong
+  field breaking a themed brand experience. They stay as code (`src/data/*.js`)
+  editable by hand or by asking me directly.
+
+### One real structural change, done on purpose
+The graphic design portfolio grid used a **hand-positioned masonry
+layout** (10 fixed grid-cell coordinates, `.p1`–`.p10`). That's
+fundamentally incompatible with "add new project, delete old ones" — a
+hand-tuned layout for exactly 10 items breaks the moment the count
+changes. Replaced it with a responsive auto-flow grid (uniform aspect-
+ratio tiles) so it works correctly for any number of admin-managed items.
+Verified: zero horizontal overflow at all 6 protocol widths, before and
+after.
+
+### Setup — required before any of this works live
+Nothing above works until you connect a real Supabase project. The app
+is built to **never break** in the meantime — the homepage falls back to
+its original static data, the contact form shows a clear "not connected"
+message instead of crashing, and `/admin` shows a setup notice instead of
+a blank page. Verified all three fallback paths in headless testing.
+
+**1. Create a Supabase project** — supabase.com, free tier is enough.
+
+**2. Run the schema** — Supabase Dashboard → SQL Editor → New Query →
+paste the entire contents of `supabase/schema.sql` → Run. This creates
+the `messages`, `portfolio_items`, and `web_projects` tables, sets up
+Row Level Security (public can submit messages and read visible items;
+only logged-in admins can read messages or manage projects), and seeds
+your existing 10 portfolio items + 4 web projects so nothing's empty on
+first load.
+
+**3. Create your admin login** — Dashboard → Authentication → Users →
+Add User. Use your own email + a real password. This is the only account
+that can log into `/admin`.
+
+**4. Get your API keys** — Dashboard → Settings → API. Copy the
+**Project URL** and the **anon public** key. Never use the
+"service_role" key anywhere in this frontend code — protocol 5.3 is
+explicit about this, and RLS is what makes the anon key safe to expose.
+
+**5. Set environment variables:**
+- Locally: copy `.env.example` to `.env`, fill in the two values.
+- On Vercel: Project Settings → Environment Variables → add
+  `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` → redeploy.
+
+**6. Log in** at `yoursite.com/admin/login` with the email/password from
+step 3.
+
+### What's still NOT built (protocol's SHOULD-HAVE / LATER tiers)
+- n8n workflow (email/WhatsApp auto-notification on new message) —
+  protocol explicitly says local n8n is fine for dev but "must not become
+  the permanent assumption for production." Messages are safely stored
+  either way (database-first) — you just check the admin panel to see
+  new ones for now instead of getting pinged automatically.
+- Media upload library, Settings panel — noted above.
+- Homepage section reordering (Selected Work → right after Hero,
+  per protocol 9.1) — you asked to come back to this separately.

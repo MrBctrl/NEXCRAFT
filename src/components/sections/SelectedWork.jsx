@@ -1,12 +1,17 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { flagships } from '../../data/flagships.js'
-import { webProjects } from '../../data/uiuxProjects.js'
+import { fetchVisibleWebProjects } from '../../services/webProjectsService.js'
 import FlagshipPortalCard from '../flagship/FlagshipPortalCard.jsx'
 import LaptopCard from '../uiux/LaptopCard.jsx'
 
 export default function SelectedWork() {
   const [othersOpen, setOthersOpen] = useState(false)
+  const [webProjects, setWebProjects] = useState([])
   const panelRef = useRef(null)
+
+  useEffect(() => {
+    fetchVisibleWebProjects().then(setWebProjects)
+  }, [])
 
   return (
     <div className="uiux-block reveal">

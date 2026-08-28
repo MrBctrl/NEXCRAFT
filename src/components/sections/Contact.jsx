@@ -1,3 +1,5 @@
+import ContactForm from './ContactForm.jsx'
+
 const LINKS = [
   { icon: '✉', label: 'Email', value: 'nexcraftcreativestudio@gmail.com', href: 'mailto:nexcraftcreativestudio@gmail.com' },
   { icon: 'in', label: 'LinkedIn', value: 'Brendan Okonji Chidi', href: '#' },
@@ -17,7 +19,7 @@ export default function Contact() {
             <span>Touch.</span>
           </div>
           <p className="contact-text">
-            Whether you need a full brand identity, a single flyer, or a complete web system — we're ready to make it happen. Let's build something great together.
+            Whether you need a full brand identity, a single flyer, or a complete web system — we're ready to make it happen. Fill out the form, or reach us directly below.
           </p>
           <div className="contact-btns">
             <a href="mailto:nexcraftcreativestudio@gmail.com" className="btn-primary contact-btn">Send a Message</a>
@@ -33,19 +35,20 @@ export default function Contact() {
               WhatsApp Us
             </a>
           </div>
+          <div className="contact-links-list contact-links-compact">
+            {LINKS.map((l) => (
+              <a href={l.href} className="contact-link-card" key={l.label}>
+                <div className="contact-link-icon">{l.icon}</div>
+                <div>
+                  <div className="contact-link-label">{l.label}</div>
+                  <div className="contact-link-value">{l.value}</div>
+                </div>
+                <div className="contact-link-arrow">→</div>
+              </a>
+            ))}
+          </div>
         </div>
-        <div className="contact-links-list">
-          {LINKS.map((l) => (
-            <a href={l.href} className="contact-link-card" key={l.label}>
-              <div className="contact-link-icon">{l.icon}</div>
-              <div>
-                <div className="contact-link-label">{l.label}</div>
-                <div className="contact-link-value">{l.value}</div>
-              </div>
-              <div className="contact-link-arrow">→</div>
-            </a>
-          ))}
-        </div>
+        <ContactForm />
       </div>
     </section>
   )

@@ -1,10 +1,16 @@
-import { useState } from 'react'
-import { portfolioItems, filterTabs } from '../../data/portfolio.js'
+import { useState, useEffect } from 'react'
+import { filterTabs } from '../../data/portfolio.js'
+import { fetchVisiblePortfolioItems } from '../../services/portfolioService.js'
 import Lightbox from '../galleries/Lightbox.jsx'
 
 export default function Work() {
+  const [items, setItems] = useState([])
   const [filter, setFilter] = useState('all')
   const [activeItem, setActiveItem] = useState(null)
+
+  useEffect(() => {
+    fetchVisiblePortfolioItems().then(setItems)
+  }, [])
 
   return (
     <section id="work" className="section-light">
@@ -27,12 +33,12 @@ export default function Work() {
       </div>
 
       <div className="portfolio-grid reveal">
-        {portfolioItems.map((item) => {
+        {items.map((item) => {
           const hidden = filter !== 'all' && item.filter !== filter
           return (
             <div
               key={item.id}
-              className={`port-item ${item.id} ${hidden ? 'hidden' : ''}`}
+              className={`port-item ${hidden ? 'hidden' : ''}`}
               tabIndex={0}
               role="button"
               onClick={() => setActiveItem(item)}
