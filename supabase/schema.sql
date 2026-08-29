@@ -123,3 +123,36 @@ insert into web_projects (title, description, url_label, video_url, tags, github
   ('Restaurant Landing Page', 'A modern, responsive restaurant landing page featuring menu display, booking form, gallery section, and smooth animations throughout.', 'yourusername.github.io/restaurant', '/videos/Restaurant.mp4', array['HTML','CSS','JavaScript'], 'https://github.com/yourusername/restaurant-landing', 3),
   ('E-Commerce Store UI', 'A modern e-commerce product page UI with cart functionality, product filters, and smooth checkout flow. Fully responsive across all devices.', 'yourusername.github.io/ecommerce-ui', null, array['HTML','CSS','JavaScript'], 'https://github.com/yourusername/ecommerce-ui', 4)
 on conflict do nothing;
+
+
+-- ============================================================
+-- PORTFOLIO IMAGE UPLOADS — lets the admin "Add New" form upload a
+-- picture straight from a PC/phone instead of typing a path or URL.
+-- Files land in this bucket and their public URL is what gets saved
+-- into portfolio_items.image_url.
+-- ============================================================
+insert into storage.buckets (id, name, public)
+values ('portfolio-images', 'portfolio-images', true)
+on conflict (id) do nothing;
+
+-- Anyone can view images (needed so the public homepage can display them).
+create policy "public can view portfolio images"
+  on storage.objects for select
+  to public
+  using (bucket_id = 'portfolio-images');
+
+-- Only logged-in admins can upload, replace, or remove images.
+create policy "authenticated can upload portfolio images"
+  on storage.objects for insert
+  to authenticated
+  with check (bucket_id = 'portfolio-images');
+
+create policy "authenticated can update portfolio images"
+  on storage.objects for update
+  to authenticated
+  using (bucket_id = 'portfolio-images');
+
+create policy "authenticated can delete portfolio images"
+  on storage.objects for delete
+  to authenticated
+  using (bucket_id = 'portfolio-images');

@@ -48,6 +48,9 @@ export const lumora = {
     structure: 'Architecture, trust, strength, balance.',
   },
 
+  // Any entry below can take multiple shots for its section: change
+  // `img: '/path.jpg'` to `img: ['/path-1.jpg', '/path-2.jpg', '/path-3.jpg']`
+  // and small prev/next arrows appear automatically on that shot.
   showcase: {
     desktop: [
       { id: 'home-hero', label: 'Homepage — Hero', img: '/images/lumora/desktop-hero.jpg' },

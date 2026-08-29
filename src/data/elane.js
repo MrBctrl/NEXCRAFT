@@ -26,9 +26,20 @@ export const elane = {
   // The website showcase captures live here once you export them from the
   // real site. Drop files into public/images/elane/ and public/videos/elane/
   // using these exact names, or edit the paths below to match what you export.
+  // Any entry below can take multiple shots for its section: change
+  // `img: '/path.jpg'` to `img: ['/path-1.jpg', '/path-2.jpg', '/path-3.jpg']`
+  // and small prev/next arrows appear automatically on that shot.
   showcase: {
     desktop: [
-      { id: 'home-hero', label: 'Homepage — Hero', img: '/images/elane/desktop-hero.jpg' },
+      {
+        id: 'home-hero',
+        label: 'Homepage — Hero',
+        img: [
+          '/images/elane/desktop-hero.jpg',
+          '/images/elane/desktop-hero-2.jpg',
+          '/images/elane/desktop-hero-3.jpg',
+        ],
+      },
       { id: 'collection', label: 'Collection', img: '/images/elane/desktop-collection.jpg' },
       { id: 'about', label: 'About / Craftsmanship', img: '/images/elane/desktop-about.jpg' },
       { id: 'footer', label: 'Footer', img: '/images/elane/desktop-footer.jpg' },

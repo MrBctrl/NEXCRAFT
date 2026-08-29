@@ -66,4 +66,19 @@ export async function deletePortfolioItem(id) {
   return { error: error?.message || null }
 }
 
+// Uploads a file (chosen from a PC or phone) into the "portfolio-images"
+// Supabase Storage bucket and returns its public URL, which is what gets
+// saved into portfolio_items.image_url.
+export async function uploadPortfolioImage(file) {
+  if (!isSupabaseConfigured) return { url: null, error: 'not-configured' }
+  const ext = file.name.split('.').pop() || 'jpg'
+  const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`
+  const { error: uploadError } = await supabase.storage
+    .from('portfolio-images')
+    .upload(path, file, { cacheControl: '3600', upsert: false })
+  if (uploadError) return { url: null, error: uploadError.message }
+  const { data } = supabase.storage.from('portfolio-images').getPublicUrl(path)
+  return { url: data.publicUrl, error: null }
+}
+
 export const PORTFOLIO_CATEGORIES = ['branding', 'print', 'mockup', 'apparel']

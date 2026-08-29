@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import {
   fetchAllPortfolioItems, createPortfolioItem, updatePortfolioItem,
-  deletePortfolioItem, PORTFOLIO_CATEGORIES,
+  deletePortfolioItem, uploadPortfolioImage, PORTFOLIO_CATEGORIES,
 } from '../../services/portfolioService.js'
 
 const EMPTY = { title: '', category: PORTFOLIO_CATEGORIES[0], description: '', imageUrl: '', visible: true, sortOrder: 0 }
@@ -11,6 +11,8 @@ export default function AdminPortfolio() {
   const [loading, setLoading] = useState(true)
   const [form, setForm] = useState(null) // null = closed, EMPTY = new, {...} = editing
   const [saving, setSaving] = useState(false)
+  const [uploading, setUploading] = useState(false)
+  const [uploadError, setUploadError] = useState('')
 
   const load = () => {
     setLoading(true)
@@ -22,14 +24,21 @@ export default function AdminPortfolio() {
 
   useEffect(() => { load() }, [])
 
-  const startNew = () => setForm({ ...EMPTY, sortOrder: items.length })
-  const startEdit = (item) => setForm({
-    id: item.id, title: item.title, category: item.category, description: item.description || '',
-    imageUrl: item.image_url, visible: item.visible, sortOrder: item.sort_order,
-  })
+  const startNew = () => { setUploadError(''); setForm({ ...EMPTY, sortOrder: items.length }) }
+  const startEdit = (item) => {
+    setUploadError('')
+    setForm({
+      id: item.id, title: item.title, category: item.category, description: item.description || '',
+      imageUrl: item.image_url, visible: item.visible, sortOrder: item.sort_order,
+    })
+  }
 
   const onSave = async (e) => {
     e.preventDefault()
+    if (!form.imageUrl) {
+      setUploadError('Upload an image or paste a path/URL before saving.')
+      return
+    }
     setSaving(true)
     const result = form.id
       ? await updatePortfolioItem(form.id, form)
@@ -53,6 +62,24 @@ export default function AdminPortfolio() {
       imageUrl: item.image_url, visible: !item.visible, sortOrder: item.sort_order,
     })
     load()
+  }
+
+  const onFilePicked = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploadError('')
+    setUploading(true)
+    const { url, error } = await uploadPortfolioImage(file)
+    setUploading(false)
+    if (error) {
+      setUploadError(
+        error.includes('not-configured')
+          ? 'Supabase isn\'t configured yet.'
+          : `Upload failed: ${error}`
+      )
+      return
+    }
+    setForm((prev) => ({ ...prev, imageUrl: url }))
   }
 
   return (
@@ -81,8 +108,31 @@ export default function AdminPortfolio() {
             <input value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
           </div>
           <div className="contact-form-field">
-            <label>Image path or URL *</label>
-            <input required placeholder="/images/example.jpg" value={form.imageUrl} onChange={(e) => setForm({ ...form, imageUrl: e.target.value })} />
+            <label>Image *</label>
+            <div className="admin-image-upload">
+              {form.imageUrl && (
+                <img src={form.imageUrl} alt="" className="admin-image-preview" />
+              )}
+              <div className="admin-image-upload-controls">
+                <label className="btn-secondary admin-upload-btn">
+                  {uploading ? 'Uploading…' : form.imageUrl ? 'Replace image' : 'Upload from device'}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={onFilePicked}
+                    disabled={uploading}
+                    hidden
+                  />
+                </label>
+                <input
+                  className="admin-image-url-fallback"
+                  placeholder="or paste an image path / URL"
+                  value={form.imageUrl}
+                  onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
+                />
+              </div>
+              {uploadError && <p className="contact-form-error">{uploadError}</p>}
+            </div>
           </div>
           <div className="contact-form-row">
             <div className="contact-form-field">

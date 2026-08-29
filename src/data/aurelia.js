@@ -40,6 +40,9 @@ export const aurelia = {
     goldAccent: '#BF9B65', // label corrupted, pixel-sampled
   },
 
+  // Any entry below can take multiple shots for its section: change
+  // `img: '/path.jpg'` to `img: ['/path-1.jpg', '/path-2.jpg', '/path-3.jpg']`
+  // and small prev/next arrows appear automatically on that shot.
   showcase: {
     desktop: [
       { id: 'home-hero', label: 'Homepage — Hero', img: '/images/aurelia/desktop-hero.jpg' },
