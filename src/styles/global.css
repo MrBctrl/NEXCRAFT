@@ -1905,7 +1905,7 @@ button:focus-visible,
 
 .admin-stat-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 16px;
 }
 .admin-stat-card {
@@ -2087,6 +2087,21 @@ button:focus-visible,
     background: #000;
     display: block;
 }
+.admin-media-type-toggle { display: flex; gap: 10px; }
+.admin-media-type-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: 1px solid rgba(13,13,13,0.15);
+    background: var(--light);
+    color: var(--mid);
+    font-size: 13px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+.admin-media-type-option input { accent-color: var(--accent); }
+.admin-media-type-option.active { border-color: var(--accent); color: var(--ink); }
 
 .admin-login-page {
     min-height: 100vh;

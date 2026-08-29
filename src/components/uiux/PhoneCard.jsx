@@ -4,9 +4,11 @@ export default function PhoneCard({ project }) {
       <div className="phone-frame">
         <div className="phone-notch"></div>
         <div className="phone-screen">
-          {project.video ? (
+          {project.mediaType === 'image' && project.mediaUrl ? (
+            <img src={project.mediaUrl} alt={project.title} loading="lazy" decoding="async" />
+          ) : project.mediaType === 'video' && project.mediaUrl ? (
             <video autoPlay muted loop playsInline preload="metadata">
-              <source src={project.video} type="video/mp4" />
+              <source src={project.mediaUrl} type="video/mp4" />
             </video>
           ) : (
             <div className="screen-placeholder small">

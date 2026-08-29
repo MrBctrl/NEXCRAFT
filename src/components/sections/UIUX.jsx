@@ -1,8 +1,15 @@
-import { mobileProjects } from '../../data/uiuxProjects.js'
+import { useEffect, useState } from 'react'
+import { fetchVisibleUiuxProjects } from '../../services/uiuxService.js'
 import SelectedWork from './SelectedWork.jsx'
 import PhoneCard from '../uiux/PhoneCard.jsx'
 
 export default function UIUX() {
+  const [mobileProjects, setMobileProjects] = useState([])
+
+  useEffect(() => {
+    fetchVisibleUiuxProjects().then(setMobileProjects)
+  }, [])
+
   return (
     <section id="uiux" className="section-dark">
       <div className="section-label accent-label">Section 04</div>

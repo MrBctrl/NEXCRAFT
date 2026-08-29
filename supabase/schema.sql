@@ -126,6 +126,48 @@ on conflict do nothing;
 
 
 -- ============================================================
+-- UI/UX PROJECTS (the "Mobile UI / UX" phone-mockup grid)
+-- Each project shows either ONE image or ONE video — media_type picks
+-- which, media_url holds the actual file.
+-- ============================================================
+create table if not exists uiux_projects (
+  id uuid primary key default gen_random_uuid(),
+  title text not null,
+  description text,
+  media_type text not null default 'video' check (media_type in ('image','video')),
+  media_url text,
+  tags text[] default '{}',
+  visible boolean not null default true,
+  sort_order integer not null default 0,
+  created_at timestamptz not null default now()
+);
+
+alter table uiux_projects enable row level security;
+
+drop policy if exists "public can read visible uiux projects" on uiux_projects;
+create policy "public can read visible uiux projects"
+  on uiux_projects for select
+  to anon
+  using (visible = true);
+
+drop policy if exists "authenticated full access uiux projects" on uiux_projects;
+create policy "authenticated full access uiux projects"
+  on uiux_projects for all
+  to authenticated
+  using (true)
+  with check (true);
+
+-- Seed with what's already live as static placeholders, so nothing
+-- disappears once the frontend switches from static data to Supabase.
+insert into uiux_projects (title, description, media_type, media_url, tags, sort_order) values
+  ('Food Delivery App UI', 'Mobile UI design for a food delivery app with onboarding, menu browsing, cart, and order tracking screens.', 'video', null, array['Mobile UI','UX Design'], 1),
+  ('Finance Dashboard App', 'Mobile UI for a personal finance app with dashboard, transaction history, spending charts, and budget management.', 'video', null, array['Mobile UI','Dashboard'], 2),
+  ('Fashion Store App UI', 'Mobile shopping experience for a fashion brand — product discovery, wishlist, size selection, and checkout flow.', 'video', null, array['Mobile UI','E-Commerce'], 3),
+  ('Creative Portfolio App', 'Mobile portfolio app UI for creatives — gallery view, project details, contact integration, and smooth navigation.', 'video', null, array['Mobile UI','Portfolio'], 4)
+on conflict do nothing;
+
+
+-- ============================================================
 -- PORTFOLIO IMAGE UPLOADS — lets the admin "Add New" form upload a
 -- picture straight from a PC/phone instead of typing a path or URL.
 -- Files land in this bucket and their public URL is what gets saved

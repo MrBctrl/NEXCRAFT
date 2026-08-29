@@ -17,6 +17,7 @@ import AdminDashboard from './pages/admin/AdminDashboard.jsx'
 import AdminMessages from './pages/admin/AdminMessages.jsx'
 import AdminPortfolio from './pages/admin/AdminPortfolio.jsx'
 import AdminWebProjects from './pages/admin/AdminWebProjects.jsx'
+import AdminUiux from './pages/admin/AdminUiux.jsx'
 import { useScrollChrome } from './hooks/useScrollChrome.js'
 import { useLocation } from 'react-router-dom'
 
@@ -63,6 +64,7 @@ export default function App() {
           <Route path="messages" element={<AdminMessages />} />
           <Route path="portfolio" element={<AdminPortfolio />} />
           <Route path="web-projects" element={<AdminWebProjects />} />
+          <Route path="uiux" element={<AdminUiux />} />
         </Route>
       </Routes>
 
