@@ -64,3 +64,18 @@ export async function deleteWebProject(id) {
   const { error } = await supabase.from('web_projects').delete().eq('id', id)
   return { error: error?.message || null }
 }
+
+// Uploads a video (chosen from a PC or phone) into the "project-videos"
+// Supabase Storage bucket and returns its public URL — same pattern as
+// uploadPortfolioImage() in portfolioService.js.
+export async function uploadProjectVideo(file) {
+  if (!isSupabaseConfigured) return { url: null, error: 'not-configured' }
+  const ext = file.name.split('.').pop() || 'mp4'
+  const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`
+  const { error: uploadError } = await supabase.storage
+    .from('project-videos')
+    .upload(path, file, { cacheControl: '3600', upsert: false })
+  if (uploadError) return { url: null, error: uploadError.message }
+  const { data } = supabase.storage.from('project-videos').getPublicUrl(path)
+  return { url: data.publicUrl, error: null }
+}

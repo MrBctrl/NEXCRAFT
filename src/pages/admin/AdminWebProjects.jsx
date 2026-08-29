@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import {
   fetchAllWebProjects, createWebProject, updateWebProject, deleteWebProject,
+  uploadProjectVideo,
 } from '../../services/webProjectsService.js'
 
 const EMPTY = { title: '', description: '', urlLabel: '', videoUrl: '', tags: '', githubUrl: '', visible: true, sortOrder: 0 }
@@ -10,6 +11,8 @@ export default function AdminWebProjects() {
   const [loading, setLoading] = useState(true)
   const [form, setForm] = useState(null)
   const [saving, setSaving] = useState(false)
+  const [uploading, setUploading] = useState(false)
+  const [uploadError, setUploadError] = useState('')
 
   const load = () => {
     setLoading(true)
@@ -21,13 +24,34 @@ export default function AdminWebProjects() {
 
   useEffect(() => { load() }, [])
 
-  const startNew = () => setForm({ ...EMPTY, sortOrder: items.length })
-  const startEdit = (item) => setForm({
-    id: item.id, title: item.title, description: item.description || '',
-    urlLabel: item.url_label || '', videoUrl: item.video_url || '',
-    tags: (item.tags || []).join(', '), githubUrl: item.github_url || '',
-    visible: item.visible, sortOrder: item.sort_order,
-  })
+  const startNew = () => { setUploadError(''); setForm({ ...EMPTY, sortOrder: items.length }) }
+  const startEdit = (item) => {
+    setUploadError('')
+    setForm({
+      id: item.id, title: item.title, description: item.description || '',
+      urlLabel: item.url_label || '', videoUrl: item.video_url || '',
+      tags: (item.tags || []).join(', '), githubUrl: item.github_url || '',
+      visible: item.visible, sortOrder: item.sort_order,
+    })
+  }
+
+  const onFilePicked = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploadError('')
+    setUploading(true)
+    const { url, error } = await uploadProjectVideo(file)
+    setUploading(false)
+    if (error) {
+      setUploadError(
+        error.includes('not-configured')
+          ? 'Supabase isn\'t configured yet.'
+          : `Upload failed: ${error}`
+      )
+      return
+    }
+    setForm((prev) => ({ ...prev, videoUrl: url }))
+  }
 
   const onSave = async (e) => {
     e.preventDefault()
@@ -85,15 +109,36 @@ export default function AdminWebProjects() {
               <input value={form.githubUrl} onChange={(e) => setForm({ ...form, githubUrl: e.target.value })} />
             </div>
           </div>
-          <div className="contact-form-row">
-            <div className="contact-form-field">
-              <label>Video path (optional)</label>
-              <input placeholder="/videos/example.mp4" value={form.videoUrl} onChange={(e) => setForm({ ...form, videoUrl: e.target.value })} />
+          <div className="contact-form-field">
+            <label>Video (optional)</label>
+            <div className="admin-image-upload">
+              {form.videoUrl && (
+                <video src={form.videoUrl} className="admin-video-preview" controls muted />
+              )}
+              <div className="admin-image-upload-controls">
+                <label className="btn-secondary admin-upload-btn">
+                  {uploading ? 'Uploading…' : form.videoUrl ? 'Replace video' : 'Upload from device'}
+                  <input
+                    type="file"
+                    accept="video/*"
+                    onChange={onFilePicked}
+                    disabled={uploading}
+                    hidden
+                  />
+                </label>
+                <input
+                  className="admin-image-url-fallback"
+                  placeholder="or paste a video path / URL"
+                  value={form.videoUrl}
+                  onChange={(e) => setForm({ ...form, videoUrl: e.target.value })}
+                />
+              </div>
+              {uploadError && <p className="contact-form-error">{uploadError}</p>}
             </div>
-            <div className="contact-form-field">
-              <label>Tags (comma-separated)</label>
-              <input placeholder="PHP, MySQL, XAMPP" value={form.tags} onChange={(e) => setForm({ ...form, tags: e.target.value })} />
-            </div>
+          </div>
+          <div className="contact-form-field">
+            <label>Tags (comma-separated)</label>
+            <input placeholder="PHP, MySQL, XAMPP" value={form.tags} onChange={(e) => setForm({ ...form, tags: e.target.value })} />
           </div>
           <div className="contact-form-row">
             <div className="contact-form-field">

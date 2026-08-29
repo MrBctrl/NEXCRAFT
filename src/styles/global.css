@@ -2080,6 +2080,13 @@ button:focus-visible,
     font-family: 'Lora', serif;
     font-size: 13px;
 }
+.admin-video-preview {
+    width: 100%;
+    max-width: 360px;
+    border-radius: 6px;
+    background: #000;
+    display: block;
+}
 
 .admin-login-page {
     min-height: 100vh;
@@ -2139,4 +2146,37 @@ button:focus-visible,
 @media (max-width: 480px) {
     .admin-stat-grid { grid-template-columns: 1fr; }
     .admin-message-summary { flex-direction: column; align-items: flex-start; gap: 10px; }
+
+    /* Sidebar: tighter padding + smaller nav links so brand, links, and
+       sign out all wrap comfortably on narrow Android/phone widths. */
+    .admin-sidebar { padding: 20px 16px; }
+    .admin-nav-link { padding: 9px 11px; font-size: 13px; }
+
+    /* Page header: stack title above the Add New button instead of
+       squeezing them onto one row. */
+    .admin-page-header { flex-direction: column; align-items: flex-start; gap: 14px; }
+    .admin-page-header .btn-primary { width: 100%; text-align: center; }
+    .admin-page h1 { font-size: 22px; }
+    .admin-main { padding: 24px 16px; }
+
+    /* Item rows (portfolio / web project lists): let the action buttons
+       drop to their own line instead of overflowing next to the title. */
+    .admin-item-row { flex-wrap: wrap; padding: 12px 14px; gap: 12px; }
+    .admin-item-info { min-width: 0; }
+    .admin-item-actions { flex-basis: 100%; }
+
+    /* Forms + login card: less padding so fields aren't cramped. */
+    .admin-form { padding: 18px; }
+    .admin-form-actions { flex-wrap: wrap; }
+    .admin-form-actions .btn-primary,
+    .admin-form-actions .btn-secondary { flex: 1; text-align: center; }
+    .admin-login-card { padding: 28px 22px; }
+
+    /* Upload controls: stack the device button above the URL fallback
+       and let the preview shrink instead of overflowing. */
+    .admin-image-upload-controls { flex-direction: column; align-items: stretch; }
+    .admin-upload-btn { text-align: center; }
+    .admin-image-url-fallback { min-width: 0; width: 100%; }
+    .admin-image-preview { width: 120px; height: 90px; }
+    .admin-video-preview { max-width: 100%; }
 }
