@@ -1,16 +1,23 @@
 import { useState, useEffect } from 'react'
 import { filterTabs } from '../../data/portfolio.js'
 import { fetchVisiblePortfolioItems } from '../../services/portfolioService.js'
-import Lightbox from '../galleries/Lightbox.jsx'
+import ProjectLightbox from '../galleries/ProjectLightbox.jsx'
 
 export default function Work() {
   const [items, setItems] = useState([])
   const [filter, setFilter] = useState('all')
-  const [activeItem, setActiveItem] = useState(null)
+  const [activeGroup, setActiveGroup] = useState(null)
+  const [activeStartIndex, setActiveStartIndex] = useState(0)
 
   useEffect(() => {
     fetchVisiblePortfolioItems().then(setItems)
   }, [])
+
+  const openItem = (item) => {
+    const group = items.filter((i) => (i.subcategory || i.filter) === (item.subcategory || item.filter))
+    setActiveGroup(group)
+    setActiveStartIndex(group.findIndex((i) => i.id === item.id))
+  }
 
   return (
     <section id="work" className="section-light">
@@ -41,10 +48,10 @@ export default function Work() {
               className={`port-item ${hidden ? 'hidden' : ''}`}
               tabIndex={0}
               role="button"
-              onClick={() => setActiveItem(item)}
-              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActiveItem(item) } }}
+              onClick={() => openItem(item)}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openItem(item) } }}
             >
-              <img src={item.img} alt={item.title} loading="lazy" decoding="async" />
+              <img src={item.images[0]} alt={item.title} loading="lazy" decoding="async" />
               <div className="port-overlay">
                 <div className="port-info">
                   <h3>{item.title}</h3>
@@ -56,7 +63,7 @@ export default function Work() {
         })}
       </div>
 
-      <Lightbox item={activeItem} onClose={() => setActiveItem(null)} />
+      <ProjectLightbox group={activeGroup} startIndex={activeStartIndex} onClose={() => setActiveGroup(null)} />
     </section>
   )
 }

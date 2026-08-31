@@ -968,9 +968,7 @@ footer {
 }
 .footer-brand { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: 1px; }
 .footer-brand span { color: var(--accent); }
-/* Unlisted admin entry point — a near-invisible dot beside the footer
-   wordmark only. Brightens on hover/focus so it's still discoverable,
-   never announced elsewhere on the page. */
+
 .footer-admin-dot {
     display: inline-block;
     width: 5px;
@@ -1234,8 +1232,7 @@ footer {
 .others-laptop-grid { margin-top: 40px; }
 
 /* =============================================
-   FLAGSHIP WORLD — placeholder shell (Task 02)
-   Full Worlds built per-flagship in later tasks.
+   FLAGSHIP WORLD — placeholder shell
    ============================================= */
 .flagship-world {
     min-height: 100vh;

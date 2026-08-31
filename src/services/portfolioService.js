@@ -18,9 +18,12 @@ export async function fetchVisiblePortfolioItems() {
   return data.map((row) => ({
     id: row.id,
     filter: row.category,
+    subcategory: row.subcategory || null,
     title: row.title,
     desc: row.description,
-    img: row.image_url,
+    // `images` is an optional JSON array column for multi-shot projects.
+    // Rows that only have the original single image_url still work fine.
+    images: Array.isArray(row.images) && row.images.length ? row.images : [row.image_url],
   }))
 }
 
@@ -39,8 +42,10 @@ export async function createPortfolioItem(item) {
   const { error } = await supabase.from('portfolio_items').insert([{
     title: item.title,
     category: item.category,
+    subcategory: item.subcategory || null,
     description: item.description || null,
     image_url: item.imageUrl,
+    images: item.images && item.images.length ? item.images : [item.imageUrl],
     visible: item.visible ?? true,
     sort_order: item.sortOrder ?? 0,
   }])
@@ -52,8 +57,10 @@ export async function updatePortfolioItem(id, item) {
   const { error } = await supabase.from('portfolio_items').update({
     title: item.title,
     category: item.category,
+    subcategory: item.subcategory || null,
     description: item.description || null,
     image_url: item.imageUrl,
+    images: item.images && item.images.length ? item.images : [item.imageUrl],
     visible: item.visible,
     sort_order: item.sortOrder,
   }).eq('id', id)
