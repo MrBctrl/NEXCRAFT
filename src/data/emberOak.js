@@ -28,8 +28,8 @@ export const emberOak = {
 
   // Extra confirmed facts, not yet used by WorldTemplate
   address: '12 Avenue des Cocotiers, Haie Vive, Cotonou, Benin',
-  phone: '+229 90 67 21 63 52',
-  email: 'hello@emberandoak.com',
+  phone: ['+229 00 00 00 00', '+234 91 20 87 28 92'],
+  email: 'emberandoak@gmail.com',
   hours: 'Tue–Thu 18:00–23:00 · Fri–Sat 18:00–00:00 · Sun 17:00–22:00',
   chef: 'Chef Amara Mensah',
 
@@ -38,14 +38,45 @@ export const emberOak = {
   // and small prev/next arrows appear automatically on that shot.
   showcase: {
     desktop: [
-      { id: 'home-hero', label: 'Homepage — Hero', img: '/images/ember-oak/desktop-hero.jpg' },
-      { id: 'menu', label: 'Menu', img: '/images/ember-oak/desktop-menu.jpg' },
-      { id: 'story', label: 'Our Story', img: '/images/ember-oak/desktop-story.jpg' },
-      { id: 'footer', label: 'Footer', img: '/images/ember-oak/desktop-footer.jpg' },
+      { id: 'home-hero', label: 'Homepage — Hero', 
+        img: [
+          '/images/ember-oak/desktop-hero.png',
+          '/images/ember-oak/desktop-hero2.png',
+          '/images/ember-oak/desktop-hero3.png',
+          '/images/ember-oak/desktop-hero4.png',
+          '/images/ember-oak/desktop-hero5.png',
+          '/images/ember-oak/desktop-hero6.png',
+        ], 
+      },
+      { id: 'menu', label: 'Menu', 
+        img: [
+          '/images/ember-oak/desktop-menu.png',
+          '/images/ember-oak/desktop-menu2.png',
+          '/images/ember-oak/desktop-menu3.png',
+          '/images/ember-oak/desktop-menu4.png',
+          '/images/ember-oak/desktop-menu5.png',
+        ], 
+      },
+      { id: 'story', label: 'Our Story', 
+        img: [
+          '/images/ember-oak/desktop-story.png',
+          '/images/ember-oak/desktop-story2.png',
+          '/images/ember-oak/desktop-story3.png',
+        ], 
+      },
+      { id: 'Contact', label: 'Contact', img: ['/images/ember-oak/desktop-contact.png'] },
     ],
     mobile: [
-      { id: 'mobile-hero', label: 'Mobile — Hero', img: '/images/ember-oak/mobile-hero.jpg' },
-      { id: 'mobile-reservations', label: 'Mobile — Reservations', img: '/images/ember-oak/mobile-reservations.jpg' },
+      { id: 'mobile-hero', label: 'Mobile — Hero', 
+        img: [
+          '/images/ember-oak/mobile-hero.png',
+          '/images/ember-oak/mobile-hero2.png',
+          '/images/ember-oak/mobile-hero3.png',
+          '/images/ember-oak/mobile-hero4.png',
+          '/images/ember-oak/mobile-hero5.png',
+        ],
+      },
+      { id: 'mobile-reservations', label: 'Mobile — Reservations', img: ['/images/ember-oak/mobile-reservations.png'] },
     ],
     scrollVideo: '/videos/ember-oak/ember-oak-scroll.mp4',
   },
