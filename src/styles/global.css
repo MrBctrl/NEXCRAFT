@@ -210,8 +210,8 @@ nav.scrolled {
     animation: pulse 2s ease-in-out infinite;
 }
 @keyframes pulse {
-    0%,100% { opacity:1; transform:scale(1); }
-    50%      { opacity:0.5; transform:scale(0.8); }
+    0%,100% { transform:scale(1); }
+    50%      { transform:scale(0.8); }
 }
 
 .hero-title {
@@ -1480,14 +1480,10 @@ footer {
     text-align: center;
 }
 .bf-screen { width: 100%; background: #111; line-height: 0; }
-.bf-screen video { width: 100%; aspect-ratio: 16/10; object-fit: cover; display: block; }
+.bf-screen video { width: 100%; height: auto; display: block; }
 .showcase-clickable { cursor: pointer; transition: opacity 0.3s; }
 .showcase-clickable:hover { opacity: 0.92; }
 
-/* Shot frame: wraps any showcase image (hero, section thumb, mobile shot)
-   so it can carry optional prev/next arrows + a shot counter. The hero
-   image now sizes to its own natural ratio instead of a fixed box, so it
-   never crops regardless of the screenshot's real dimensions. */
 .shot-frame { position: relative; width: 100%; line-height: 0; }
 .bf-screen .shot-frame img { width: 100%; height: auto; display: block; }
 .bf-mobile-screen .shot-frame { width: 100%; height: 100%; }

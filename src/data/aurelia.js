@@ -40,19 +40,54 @@ export const aurelia = {
     goldAccent: '#BF9B65', // label corrupted, pixel-sampled
   },
 
-  // Any entry below can take multiple shots for its section: change
-  // `img: '/path.jpg'` to `img: ['/path-1.jpg', '/path-2.jpg', '/path-3.jpg']`
-  // and small prev/next arrows appear automatically on that shot.
   showcase: {
     desktop: [
-      { id: 'home-hero', label: 'Homepage — Hero', img: '/images/aurelia/desktop-hero.jpg' },
-      { id: 'specialists', label: 'Specialists', img: '/images/aurelia/desktop-specialists.jpg' },
-      { id: 'health-library', label: 'Health Library', img: '/images/aurelia/desktop-library.jpg' },
-      { id: 'footer', label: 'Footer', img: '/images/aurelia/desktop-footer.jpg' },
+      { id: 'home-hero', label: 'Homepage — Hero', 
+        img: [
+          '/images/aurelia/desktop-hero.png',
+          '/images/aurelia/desktop-hero2.png',
+          '/images/aurelia/desktop-hero3.png',
+          '/images/aurelia/desktop-hero4.png',
+        ], 
+      },
+      { id: 'specialists', label: 'Specialists', 
+        img: [
+          '/images/aurelia/desktop-specialists.png',
+          '/images/aurelia/desktop-specialists2.png',
+        ],
+      },
+      { id: 'health-library', label: 'Health Library', 
+        img: [
+          '/images/aurelia/desktop-library.png',
+        ],
+      },
+      { id: 'portal', label: 'Portal', 
+        img: [
+          '/images/aurelia/desktop-portal.png',
+          '/images/aurelia/desktop-portal2.png',
+          '/images/aurelia/desktop-portal3.png',
+        ], 
+      },
     ],
     mobile: [
-      { id: 'mobile-hero', label: 'Mobile — Hero', img: '/images/aurelia/mobile-hero.jpg' },
-      { id: 'mobile-booking', label: 'Mobile — Booking', img: '/images/aurelia/mobile-booking.jpg' },
+      { id: 'mobile-hero', label: 'Mobile — Hero', 
+        img: [
+          '/images/aurelia/mobile-hero.png',
+          '/images/aurelia/mobile-hero2.png',
+          '/images/aurelia/mobile-hero3.png',
+          '/images/aurelia/mobile-hero4.png',
+        ],
+      },
+      { id: 'mobile-booking', label: 'Mobile — Booking', 
+        img: [
+          '/images/aurelia/mobile-booking.png',
+          '/images/aurelia/mobile-booking2.png',
+          '/images/aurelia/mobile-booking3.png',
+          '/images/aurelia/mobile-booking4.png',
+          '/images/aurelia/mobile-booking5.png',
+          '/images/aurelia/mobile-booking6.png',
+        ],
+      },
     ],
     scrollVideo: '/videos/aurelia/aurelia-scroll.mp4', // optional, 8-15s muted loop
   },

@@ -41,19 +41,47 @@ export const lumen = {
   },
   values: ['Curiosity', 'Excellence', 'Integrity', 'Community', 'Impact'],
 
-  // Any entry below can take multiple shots for its section: change
-  // `img: '/path.jpg'` to `img: ['/path-1.jpg', '/path-2.jpg', '/path-3.jpg']`
-  // and small prev/next arrows appear automatically on that shot.
   showcase: {
     desktop: [
-      { id: 'home-hero', label: 'Homepage — Hero', img: '/images/lumen/desktop-hero.jpg' },
-      { id: 'portals', label: 'Portals', img: '/images/lumen/desktop-portals.jpg' },
-      { id: 'courses', label: 'Courses / Admin', img: '/images/lumen/desktop-courses.jpg' },
-      { id: 'footer', label: 'Footer', img: '/images/lumen/desktop-footer.jpg' },
+      { id: 'home-hero', label: 'Homepage — Hero', 
+        img: [
+          '/images/lumen/desktop-hero.png',
+          '/images/lumen/desktop-hero2.png',
+          '/images/lumen/desktop-hero3.png',
+        ], 
+      },
+      { id: 'portals', label: 'Portals', 
+        img: [
+          '/images/lumen/desktop-portals.png'
+        ],
+      },
+      { id: 'courses', label: 'Courses / Admin', 
+        img: [
+        '/images/lumen/desktop-courses.png',
+        '/images/lumen/desktop-courses2.png',
+        '/images/lumen/desktop-courses3.png',
+        '/images/lumen/desktop-courses4.png',
+      ], 
+    },
+      { id: 'footer', label: 'Footer', 
+        img: [
+        '/images/lumen/desktop-footer.png'
+      ], 
+    },
     ],
     mobile: [
-      { id: 'mobile-hero', label: 'Mobile — Hero', img: '/images/lumen/mobile-hero.jpg' },
-      { id: 'mobile-portal', label: 'Mobile — Portal', img: '/images/lumen/mobile-portal.jpg' },
+      { id: 'mobile-hero', label: 'Mobile — Hero', 
+        img: [
+          '/images/lumen/mobile-hero.png',
+          '/images/lumen/mobile-hero2.png',
+          '/images/lumen/mobile-hero3.png',
+        ]
+      },
+      { id: 'mobile-portal', label: 'Mobile — Portal', img: [
+        '/images/lumen/mobile-portal.png',
+        '/images/lumen/mobile-portal2.png',
+        '/images/lumen/mobile-portal3.png',
+      ] },
     ],
     scrollVideo: '/videos/lumen/lumen-scroll.mp4',
   },
