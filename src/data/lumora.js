@@ -1,14 +1,3 @@
-// LUMORA — brand palette confirmed by pixel-sampling the uploaded brand
-// identity sheet. All six hex labels were legible this time and matched
-// their sampled swatch colors within normal antialiasing tolerance — no
-// corrections needed, unlike AURELIA/EMBER & OAK's sheets.
-//
-// Three taglines exist across sources: the live site's meta tag ("Light
-// Reveals Home"), the sheet's logo subtitle ("Premium Living & Property
-// Services"), and the sheet's footer slogan ("Every Detail. Every Space.
-// Beautifully Connected."). Using the footer slogan as the primary
-// tagline since it reads as the actual brand line; the subtitle is folded
-// into the description. Worth checking which is meant to be canonical.
 
 export const lumora = {
   slug: 'lumora',
@@ -53,14 +42,49 @@ export const lumora = {
   // and small prev/next arrows appear automatically on that shot.
   showcase: {
     desktop: [
-      { id: 'home-hero', label: 'Homepage — Hero', img: '/images/lumora/desktop-hero.jpg' },
-      { id: 'listings', label: 'Listings', img: '/images/lumora/desktop-listings.jpg' },
-      { id: 'divisions', label: 'Divisions', img: '/images/lumora/desktop-divisions.jpg' },
-      { id: 'footer', label: 'Footer', img: '/images/lumora/desktop-footer.jpg' },
+      { id: 'home-hero', label: 'Homepage — Hero', 
+        img: [
+          '/images/lumora/desktop-hero.png',
+          '/images/lumora/desktop-hero2.png',
+          '/images/lumora/desktop-hero3.png',
+          '/images/lumora/desktop-hero4.png',
+          '/images/lumora/desktop-hero5.png',
+        ], 
+      },
+      { id: 'listings', label: 'Listings', 
+        img: [
+          '/images/lumora/desktop-listings.png',
+          '/images/lumora/desktop-listings2.png',
+          '/images/lumora/desktop-listings3.png',
+          '/images/lumora/desktop-listings4.png',
+          '/images/lumora/desktop-listings5.png',
+      ], 
+    },
+      { id: 'divisions', label: 'Divisions', 
+        img: [
+          '/images/lumora/desktop-divisions.png'
+
+      ], 
+    },
+      { id: 'booking', label: 'booking', 
+        img: [
+          '/images/lumora/desktop-booking.png'
+      ], 
+    },
     ],
     mobile: [
-      { id: 'mobile-hero', label: 'Mobile — Hero', img: '/images/lumora/mobile-hero.jpg' },
-      { id: 'mobile-listing', label: 'Mobile — Listing', img: '/images/lumora/mobile-listing.jpg' },
+      { id: 'mobile-hero', label: 'Mobile — Hero', 
+        img: [
+          '/images/lumora/mobile-hero.png',
+          '/images/lumora/mobile-hero2.png',
+        ], 
+      },
+      { id: 'mobile-listing', label: 'Mobile — Listing', 
+        img: [
+          '/images/lumora/mobile-listing.png',
+          '/images/lumora/mobile-listing2.png',
+        ], 
+      },
     ],
     scrollVideo: '/videos/lumora/lumora-scroll.mp4',
   },
