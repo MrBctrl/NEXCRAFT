@@ -84,7 +84,7 @@ export default function WebsiteShowcase({ flagship }) {
       {scrollVideo && (
         <div className="showcase-video">
           <BrowserFrame addressLabel={addressLabel}>
-            <video autoPlay muted loop playsInline preload="metadata">
+            <video autoPlay muted loop playsInline preload="metadata" poster={heroShots[0]}>
               <source src={scrollVideo} type="video/mp4" />
             </video>
           </BrowserFrame>
