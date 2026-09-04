@@ -77,11 +77,25 @@ export async function deleteUiuxProject(id) {
 export async function uploadUiuxMedia(file, mediaType) {
   if (!isSupabaseConfigured) return { url: null, error: 'not-configured' }
   const bucket = mediaType === 'image' ? 'portfolio-images' : 'project-videos'
+  let toUpload = file
+  if (mediaType === 'image') {
+    try {
+      const { default: imageCompression } = await import('browser-image-compression')
+      toUpload = await imageCompression(file, {
+        maxSizeMB: 0.6,
+        maxWidthOrHeight: 1600,
+        useWebWorker: true,
+        fileType: file.type,
+      })
+    } catch {
+      toUpload = file
+    }
+  }
   const ext = file.name.split('.').pop() || (mediaType === 'image' ? 'jpg' : 'mp4')
   const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`
   const { error: uploadError } = await supabase.storage
     .from(bucket)
-    .upload(path, file, { cacheControl: '3600', upsert: false })
+    .upload(path, toUpload, { cacheControl: '3600', upsert: false })
   if (uploadError) return { url: null, error: uploadError.message }
   const { data } = supabase.storage.from(bucket).getPublicUrl(path)
   return { url: data.publicUrl, error: null }

@@ -35,10 +35,24 @@ export default function AdminWebProjects() {
     })
   }
 
-  const onFilePicked = async (e) => {
+    const onFilePicked = async (e) => {
     const file = e.target.files?.[0]
     if (!file) return
     setUploadError('')
+    // Videos aren't compressed automatically (that needs a proper
+    // encoder, not something safe to run in-browser) — nudge toward
+    // pre-compressing large ones instead of silently uploading them huge.
+    if (file.size > 20 * 1024 * 1024) {
+      const proceed = window.confirm(
+        `This video is ${(file.size / 1024 / 1024).toFixed(1)}MB — that'll load slowly for visitors.\n\n` +
+        'Recommended: compress it first with the "node scripts/optimize-videos.mjs" script, then upload the smaller file.\n\n' +
+        'Upload it as-is anyway?'
+      )
+      if (!proceed) {
+        e.target.value = ''
+        return
+      }
+    }
     setUploading(true)
     const { url, error } = await uploadProjectVideo(file)
     setUploading(false)

@@ -15,9 +15,6 @@ ffmpeg.setFfmpegPath('C:\\ffmpeg\\bin\\ffmpeg.exe')
 
 const ROOT = path.join(process.cwd(), 'public', 'videos')
 
-// These homepage/portfolio clips don't need to be huge — 960px wide,
-// a modest bitrate, and no audio track (they're always muted anyway)
-// covers everything here without visible quality loss.
 const MAX_WIDTH = 960
 const TARGET_BITRATE = '1200k'
 

@@ -78,11 +78,28 @@ export async function deletePortfolioItem(id) {
 // saved into portfolio_items.image_url.
 export async function uploadPortfolioImage(file) {
   if (!isSupabaseConfigured) return { url: null, error: 'not-configured' }
+  let toUpload = file
+  try {
+    // Loaded on demand, not bundled into the public site's initial
+    // download — this library is only ever needed on the admin upload
+    // form, so nobody browsing the live site should pay for it.
+    const { default: imageCompression } = await import('browser-image-compression')
+    toUpload = await imageCompression(file, {
+      maxSizeMB: 0.6,
+      maxWidthOrHeight: 1600,
+      useWebWorker: true,
+      fileType: file.type,
+    })
+  } catch {
+    // If compression fails for any reason, fall back to uploading the
+    // original file rather than blocking the admin from saving at all.
+    toUpload = file
+  }
   const ext = file.name.split('.').pop() || 'jpg'
   const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`
   const { error: uploadError } = await supabase.storage
     .from('portfolio-images')
-    .upload(path, file, { cacheControl: '3600', upsert: false })
+    .upload(path, toUpload, { cacheControl: '3600', upsert: false })
   if (uploadError) return { url: null, error: uploadError.message }
   const { data } = supabase.storage.from('portfolio-images').getPublicUrl(path)
   return { url: data.publicUrl, error: null }
