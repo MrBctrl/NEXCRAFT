@@ -20,6 +20,7 @@ import AdminWebProjects from './pages/admin/AdminWebProjects.jsx'
 import AdminUiux from './pages/admin/AdminUiux.jsx'
 import { useScrollChrome } from './hooks/useScrollChrome.js'
 import { useLocation } from 'react-router-dom'
+import { Analytics } from "@vercel/analytics/next"
 
 const SECTION_IDS = ['about', 'services', 'work', 'uiux', 'contact']
 
