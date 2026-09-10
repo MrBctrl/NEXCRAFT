@@ -5,7 +5,7 @@ export async function fetchVisibleUiuxProjects() {
   if (!isSupabaseConfigured) {
     return staticMobileProjects.map((p) => ({
       id: p.id, title: p.title, desc: p.desc, tags: p.tags,
-      mediaType: 'video', mediaUrl: p.video,
+      mediaType: 'video', mediaUrls: p.video ? [p.video] : [],
     }))
   }
   const { data, error } = await supabase
@@ -16,7 +16,7 @@ export async function fetchVisibleUiuxProjects() {
   if (error || !data || data.length === 0) {
     return staticMobileProjects.map((p) => ({
       id: p.id, title: p.title, desc: p.desc, tags: p.tags,
-      mediaType: 'video', mediaUrl: p.video,
+      mediaType: 'video', mediaUrls: p.video ? [p.video] : [],
     }))
   }
   return data.map((row) => ({
@@ -25,7 +25,7 @@ export async function fetchVisibleUiuxProjects() {
     desc: row.description,
     tags: row.tags || [],
     mediaType: row.media_type,
-    mediaUrl: row.media_url,
+    mediaUrls: row.media_urls || [],
   }))
 }
 
@@ -44,7 +44,7 @@ export async function createUiuxProject(item) {
     title: item.title,
     description: item.description || null,
     media_type: item.mediaType,
-    media_url: item.mediaUrl || null,
+    media_urls: item.mediaUrls || [],
     tags: item.tags || [],
     visible: item.visible ?? true,
     sort_order: item.sortOrder ?? 0,
@@ -58,7 +58,7 @@ export async function updateUiuxProject(id, item) {
     title: item.title,
     description: item.description || null,
     media_type: item.mediaType,
-    media_url: item.mediaUrl || null,
+    media_urls: item.mediaUrls || [],
     tags: item.tags || [],
     visible: item.visible,
     sort_order: item.sortOrder,
@@ -74,6 +74,9 @@ export async function deleteUiuxProject(id) {
 
 // Uploads either an image or a video, routing to whichever existing
 // storage bucket already handles that file type — no new bucket needed.
+// Images get compressed/resized in the browser first, same as the
+// portfolio upload — a phone-camera image doesn't need to stay 8MB to
+// look sharp inside a small phone-mockup frame.
 export async function uploadUiuxMedia(file, mediaType) {
   if (!isSupabaseConfigured) return { url: null, error: 'not-configured' }
   const bucket = mediaType === 'image' ? 'portfolio-images' : 'project-videos'

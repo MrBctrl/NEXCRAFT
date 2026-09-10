@@ -2198,3 +2198,31 @@ button:focus-visible,
     .admin-image-preview { width: 120px; height: 90px; }
     .admin-video-preview { max-width: 100%; }
 }
+.phone-screen .shot-frame { width: 100%; height: 100%; }
+
+.admin-media-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.admin-media-gallery-item { position: relative; }
+.admin-media-gallery-item .admin-image-preview,
+.admin-media-gallery-item .admin-video-preview { margin: 0; }
+.admin-media-remove {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: none;
+    background: var(--ink);
+    color: #fff;
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.admin-media-remove:hover { background: var(--accent); }

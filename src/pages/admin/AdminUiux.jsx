@@ -4,7 +4,7 @@ import {
   deleteUiuxProject, uploadUiuxMedia,
 } from '../../services/uiuxService.js'
 
-const EMPTY = { title: '', description: '', mediaType: 'video', mediaUrl: '', tags: '', visible: true, sortOrder: 0 }
+const EMPTY = { title: '', description: '', mediaType: 'video', mediaUrls: [], tags: '', visible: true, sortOrder: 0 }
 
 export default function AdminUiux() {
   const [items, setItems] = useState([])
@@ -29,7 +29,7 @@ export default function AdminUiux() {
     setUploadError('')
     setForm({
       id: item.id, title: item.title, description: item.description || '',
-      mediaType: item.media_type || 'video', mediaUrl: item.media_url || '',
+      mediaType: item.media_type || 'video', mediaUrls: item.media_urls || [],
       tags: (item.tags || []).join(', '), visible: item.visible, sortOrder: item.sort_order,
     })
   }
@@ -38,36 +38,59 @@ export default function AdminUiux() {
     // Switching type invalidates whatever was already picked/uploaded —
     // a video URL isn't a valid image and vice versa.
     setUploadError('')
-    setForm((prev) => ({ ...prev, mediaType, mediaUrl: '' }))
+    setForm((prev) => ({ ...prev, mediaType, mediaUrls: [] }))
   }
 
-    const onFilePicked = async (e) => {
-    const file = e.target.files?.[0]
-    if (!file) return
+  const onFilesPicked = async (e) => {
+    const files = Array.from(e.target.files || [])
+    if (files.length === 0) return
     setUploadError('')
-    if (form.mediaType === 'video' && file.size > 20 * 1024 * 1024) {
-      const proceed = window.confirm(
-        `This video is ${(file.size / 1024 / 1024).toFixed(1)}MB — that'll load slowly for visitors.\n\n` +
-        'Recommended: compress it first with the "node scripts/optimize-videos.mjs" script, then upload the smaller file.\n\n' +
-        'Upload it as-is anyway?'
-      )
-      if (!proceed) {
-        e.target.value = ''
+
+    if (form.mediaType === 'video') {
+      const file = files[0]
+      if (file.size > 20 * 1024 * 1024) {
+        const proceed = window.confirm(
+          `This video is ${(file.size / 1024 / 1024).toFixed(1)}MB — that'll load slowly for visitors.\n\n` +
+          'Recommended: compress it first with "node scripts/compress-video.mjs", then upload the smaller file.\n\n' +
+          'Upload it as-is anyway?'
+        )
+        if (!proceed) {
+          e.target.value = ''
+          return
+        }
+      }
+      setUploading(true)
+      const { url, error } = await uploadUiuxMedia(file, 'video')
+      setUploading(false)
+      if (error) {
+        setUploadError(error.includes('not-configured') ? 'Supabase isn\'t configured yet.' : `Upload failed: ${error}`)
         return
       }
-    }
-    setUploading(true)
-    const { url, error } = await uploadUiuxMedia(file, form.mediaType)
-    setUploading(false)
-    if (error) {
-      setUploadError(
-        error.includes('not-configured')
-          ? 'Supabase isn\'t configured yet.'
-          : `Upload failed: ${error}`
-      )
+      setForm((prev) => ({ ...prev, mediaUrls: [url] }))
+      e.target.value = ''
       return
     }
-    setForm((prev) => ({ ...prev, mediaUrl: url }))
+
+    // Image mode: upload every picked file, appending each result to
+    // whatever's already there — same "add more shots" idea as the
+    // Portfolio/flagship carousels use.
+    setUploading(true)
+    const uploaded = []
+    for (const file of files) {
+      const { url, error } = await uploadUiuxMedia(file, 'image')
+      if (error) {
+        setUploadError(error.includes('not-configured') ? 'Supabase isn\'t configured yet.' : `Upload failed: ${error}`)
+        continue
+      }
+      uploaded.push(url)
+    }
+    setUploading(false)
+    setForm((prev) => ({ ...prev, mediaUrls: [...prev.mediaUrls, ...uploaded] }))
+    e.target.value = ''
+  }
+
+  const onRemoveMedia = (index) => {
+    setForm((prev) => ({ ...prev, mediaUrls: prev.mediaUrls.filter((_, i) => i !== index) }))
   }
 
   const onSave = async (e) => {
@@ -93,7 +116,7 @@ export default function AdminUiux() {
   const onToggleVisible = async (item) => {
     await updateUiuxProject(item.id, {
       title: item.title, description: item.description, mediaType: item.media_type,
-      mediaUrl: item.media_url, tags: item.tags, visible: !item.visible, sortOrder: item.sort_order,
+      mediaUrls: item.media_urls, tags: item.tags, visible: !item.visible, sortOrder: item.sort_order,
     })
     load()
   }
@@ -126,7 +149,7 @@ export default function AdminUiux() {
                   checked={form.mediaType === 'image'}
                   onChange={() => onMediaTypeChange('image')}
                 />
-                Picture
+                Picture(s)
               </label>
               <label className={`admin-media-type-option ${form.mediaType === 'video' ? 'active' : ''}`}>
                 <input
@@ -141,31 +164,40 @@ export default function AdminUiux() {
           </div>
 
           <div className="contact-form-field">
-            <label>{form.mediaType === 'image' ? 'Picture' : 'Video'} (optional — leave empty for "Coming soon")</label>
+            <label>
+              {form.mediaType === 'image' ? 'Pictures' : 'Video'} (optional — leave empty for "Coming soon")
+            </label>
             <div className="admin-image-upload">
-              {form.mediaUrl && form.mediaType === 'image' && (
-                <img src={form.mediaUrl} alt="" className="admin-image-preview" />
-              )}
-              {form.mediaUrl && form.mediaType === 'video' && (
-                <video src={form.mediaUrl} className="admin-video-preview" controls muted />
+              {form.mediaUrls.length > 0 && (
+                <div className="admin-media-gallery">
+                  {form.mediaUrls.map((url, i) => (
+                    <div className="admin-media-gallery-item" key={url + i}>
+                      {form.mediaType === 'image' ? (
+                        <img src={url} alt="" className="admin-image-preview" />
+                      ) : (
+                        <video src={url} className="admin-video-preview" controls muted />
+                      )}
+                      <button type="button" className="admin-media-remove" onClick={() => onRemoveMedia(i)} aria-label="Remove">×</button>
+                    </div>
+                  ))}
+                </div>
               )}
               <div className="admin-image-upload-controls">
                 <label className="btn-secondary admin-upload-btn">
-                  {uploading ? 'Uploading…' : form.mediaUrl ? 'Replace' : 'Upload from device'}
+                  {uploading
+                    ? 'Uploading…'
+                    : form.mediaType === 'image'
+                      ? (form.mediaUrls.length > 0 ? 'Add more pictures' : 'Upload from device')
+                      : (form.mediaUrls.length > 0 ? 'Replace video' : 'Upload from device')}
                   <input
                     type="file"
                     accept={form.mediaType === 'image' ? 'image/*' : 'video/*'}
-                    onChange={onFilePicked}
+                    multiple={form.mediaType === 'image'}
+                    onChange={onFilesPicked}
                     disabled={uploading}
                     hidden
                   />
                 </label>
-                <input
-                  className="admin-image-url-fallback"
-                  placeholder={`or paste a ${form.mediaType} path / URL`}
-                  value={form.mediaUrl}
-                  onChange={(e) => setForm({ ...form, mediaUrl: e.target.value })}
-                />
               </div>
               {uploadError && <p className="contact-form-error">{uploadError}</p>}
             </div>
@@ -200,7 +232,10 @@ export default function AdminUiux() {
               <div className="admin-item-info">
                 <strong>{item.title}</strong>
                 <span className="admin-item-meta">
-                  {item.media_type}{(item.tags || []).length > 0 ? ` · ${item.tags.join(', ')}` : ''}{!item.visible ? ' · hidden' : ''}
+                  {item.media_type}
+                  {(item.media_urls || []).length > 1 ? ` (${item.media_urls.length})` : ''}
+                  {(item.tags || []).length > 0 ? ` · ${item.tags.join(', ')}` : ''}
+                  {!item.visible ? ' · hidden' : ''}
                 </span>
               </div>
               <div className="admin-item-actions">
