@@ -62,7 +62,7 @@ export const lumora = {
     },
       { id: 'divisions', label: 'Divisions', 
         img: [
-          '/images/lumora/desktop-divisions.png'
+          '/images/lumora/desktop-divisions.png',
 
       ], 
     },
