@@ -17,10 +17,13 @@ export default function FlagshipPortalCard({ flagship }) {
       style={style}
     >
       <div className="portal-card-industry">{flagship.industry}</div>
-      <div className="portal-card-name">{flagship.name}</div>
+      <div className="portal-card-body">
+        <div className="portal-card-name">{flagship.name}</div>
+        {flagship.tagline && <div className="portal-card-tagline">{flagship.tagline}</div>}
+      </div>
       <div className="portal-card-enter">
         Enter World
-        <span className="portal-card-arrow">→</span>
+        <span className="portal-card-arrow" aria-hidden="true">→</span>
       </div>
     </Link>
   )

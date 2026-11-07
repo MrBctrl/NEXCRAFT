@@ -1,28 +1,28 @@
-import { Routes, Route } from 'react-router-dom'
+import { lazy, Suspense } from 'react'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import Navbar from './components/navigation/Navbar.jsx'
 import Footer from './components/shared/Footer.jsx'
 import ProgressBar from './components/shared/ProgressBar.jsx'
 import Home from './pages/Home.jsx'
-import FlagshipWorld from './pages/FlagshipWorld.jsx'
-import ElaneWorld from './pages/worlds/ElaneWorld.jsx'
-import AureliaWorld from './pages/worlds/AureliaWorld.jsx'
-import LumenWorld from './pages/worlds/LumenWorld.jsx'
-import LumoraWorld from './pages/worlds/LumoraWorld.jsx'
-import EmberOakWorld from './pages/worlds/EmberOakWorld.jsx'
-import VaultaWorld from './pages/worlds/VaultaWorld.jsx'
-import AdminLayout from './components/admin/AdminLayout.jsx'
-import ProtectedRoute from './components/admin/ProtectedRoute.jsx'
-import AdminLogin from './pages/admin/AdminLogin.jsx'
-import AdminDashboard from './pages/admin/AdminDashboard.jsx'
-import AdminMessages from './pages/admin/AdminMessages.jsx'
-import AdminPortfolio from './pages/admin/AdminPortfolio.jsx'
-import AdminWebProjects from './pages/admin/AdminWebProjects.jsx'
-import AdminUiux from './pages/admin/AdminUiux.jsx'
+const FlagshipWorld = lazy(() => import('./pages/FlagshipWorld.jsx'))
+const ElaneWorld = lazy(() => import('./pages/worlds/ElaneWorld.jsx'))
+const AureliaWorld = lazy(() => import('./pages/worlds/AureliaWorld.jsx'))
+const LumenWorld = lazy(() => import('./pages/worlds/LumenWorld.jsx'))
+const LumoraWorld = lazy(() => import('./pages/worlds/LumoraWorld.jsx'))
+const EmberOakWorld = lazy(() => import('./pages/worlds/EmberOakWorld.jsx'))
+const VaultaWorld = lazy(() => import('./pages/worlds/VaultaWorld.jsx'))
+const AdminLayout = lazy(() => import('./components/admin/AdminLayout.jsx'))
+const ProtectedRoute = lazy(() => import('./components/admin/ProtectedRoute.jsx'))
+const AdminLogin = lazy(() => import('./pages/admin/AdminLogin.jsx'))
+const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard.jsx'))
+const AdminMessages = lazy(() => import('./pages/admin/AdminMessages.jsx'))
+const AdminPortfolio = lazy(() => import('./pages/admin/AdminPortfolio.jsx'))
+const AdminWebProjects = lazy(() => import('./pages/admin/AdminWebProjects.jsx'))
+const AdminUiux = lazy(() => import('./pages/admin/AdminUiux.jsx'))
 import { useScrollChrome } from './hooks/useScrollChrome.js'
-import { useLocation } from 'react-router-dom'
 
 
-const SECTION_IDS = ['about', 'services', 'work', 'uiux', 'contact']
+const SECTION_IDS = ['about', 'founder', 'work', 'uiux', 'services', 'contact']
 
 function SiteChrome() {
   const { progress, scrolled, activeSection } = useScrollChrome(SECTION_IDS)
@@ -42,6 +42,7 @@ export default function App() {
     <>
       {!isAdmin && <SiteChrome />}
 
+      <Suspense fallback={null}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/work/elane" element={<ElaneWorld />} />
@@ -68,6 +69,7 @@ export default function App() {
           <Route path="uiux" element={<AdminUiux />} />
         </Route>
       </Routes>
+      </Suspense>
 
       {!isAdmin && <Footer />}
     </>

@@ -3,14 +3,14 @@ import ContactForm from './ContactForm.jsx'
 const LINKS = [
   { icon: '✉', label: 'Email', value: 'nexcraftcreativestudio@gmail.com', href: 'mailto:nexcraftcreativestudio@gmail.com' },
   { icon: 'in', label: 'LinkedIn', value: 'Brendan Okonji Chidi', href: '#' },
-  { icon: 'Be', label: 'Behance', value: '@nexcraftcreative', href: '#' },
-  { icon: 'GH', label: 'GitHub', value: '@nexcraft-creative', href: '#' },
+  { icon: 'Be', label: 'Behance', value: '@Brendan Okonji', href: '#' },
+  { icon: 'GH', label: 'GitHub', value: '@MrBCtrl', href: '#' },
 ]
 
 export default function Contact() {
   return (
     <section id="contact" className="contact-section">
-      <div className="section-label accent-label">Section 05</div>
+      <div className="section-label accent-label">Section 06</div>
       <h2 className="section-heading light-heading">Let's <em>Work</em> Together</h2>
       <div className="contact-grid reveal">
         <div className="contact-left">
@@ -19,7 +19,7 @@ export default function Contact() {
             <span>Touch.</span>
           </div>
           <p className="contact-text">
-            Whether you need a full brand identity, a single flyer, or a complete web system — we're ready to make it happen. Fill out the form, or reach us directly below.
+            Whether you need a full brand identity, a single flyer or a complete web system, send a message and I'll reply personally. Use the form, or reach out directly below.
           </p>
           <div className="contact-btns">
             <a href="mailto:nexcraftcreativestudio@gmail.com" className="btn-primary contact-btn">Send a Message</a>

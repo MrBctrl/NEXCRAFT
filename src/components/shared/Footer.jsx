@@ -9,7 +9,7 @@ export default function Footer() {
         Nexcraft<span>.</span>
         <a href="/admin/login" className="footer-admin-dot" aria-label="Admin login" title=""></a>
       </div>
-      <div className="footer-note">© 2026 Nexcraft Creative Studio. Designer & Developer. All rights reserved.</div>
+      <div className="footer-note">© 2026 NEXCRAFT® Creative Technology Studio. Founded and led by Brendan Okonji.</div>
       <a href="#" className="footer-top" onClick={scrollTop}>↑ Top</a>
     </footer>
   )

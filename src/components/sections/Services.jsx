@@ -1,22 +1,24 @@
 import ServiceCard from '../shared/ServiceCard.jsx'
 
 const SERVICES = [
-  { num: '01', icon: '🎯', title: "Brand Identity Design", desc: "Full brand systems from concept to delivery — logos, color palettes, typography, brand guidelines. Everything your business needs to look unforgettable and professionally established.", tags: ["Logo Design", "Brand Guide", "CorelDRAW"] },
-  { num: '02', icon: '🎨', title: "Print & Digital Design", desc: "Posters, banners, flyers, social media content, ads, and event graphics — designed to grab attention and communicate clearly across every format and platform.", tags: ["Flyers", "Banners", "Social Media"] },
-  { num: '03', icon: '📦', title: "Packaging & Mockups", desc: "Product packaging design and professional mockup presentations that make your brand look premium and market-ready before you print a single copy.", tags: ["Packaging", "Mockups", "Product Design"] },
-  { num: '04', icon: '🖥️', title: "UI / UX Design", desc: "Clean, intuitive interfaces for web and mobile apps. We design systems people actually enjoy using — wireframes, prototypes, and pixel-perfect final designs.", tags: ["Web UI", "Mobile UI", "Prototyping"] },
-  { num: '05', icon: '💻', title: "Web Development", desc: "Custom websites, web systems, and software built with PHP and MySQL. From portfolio sites to full management systems — functional, clean, and built to last.", tags: ["PHP / MySQL", "HTML / CSS", "Web Systems"] },
-  { num: '06', icon: '🎬', title: "Motion & Apparel", desc: "Animated graphics, motion posters, and bold print-ready apparel designs for fashion brands, merchandise drops, and digital campaigns.", tags: ["Motion Design", "T-Shirt Design", "Animation"] },
+  { num: '01', title: 'Web Development', desc: 'Websites and web applications built with HTML, CSS, JavaScript and React, backed by PHP, MySQL or Supabase. Responsive, fast and written to be maintained.', tags: ['React + Vite', 'PHP / MySQL', 'Supabase'] },
+  { num: '02', title: 'UI / UX Design', desc: 'Interfaces designed in Figma, from structure and flow to finished screens. Wireframes, prototypes and layouts that make a product easy to understand and use.', tags: ['Figma', 'Wireframes', 'Prototyping'] },
+  { num: '03', title: 'Graphic & Social Media Design', desc: 'Posters, flyers, banners, social media content, packaging mockups and apparel graphics, designed to communicate clearly in print and on screen.', tags: ['Print', 'Social media', 'Mockups'] },
+  { num: '04', title: 'Branding & Visual Identity', desc: 'Logos, colour, typography and the guidelines that hold them together, so a business looks consistent everywhere it appears.', tags: ['Logo design', 'Brand guide', 'CorelDRAW'] },
+  { num: '05', title: 'AI Automation', desc: 'Workflows built in n8n that connect the tools a business already uses and remove repetitive manual work, designed around a real operational problem.', tags: ['n8n', 'Integrations', 'Workflow design'] },
 ]
 
 export default function Services() {
   return (
-    <section id="services" className="section-dark">
-      <div className="section-label accent-label">Section 02</div>
-      <h2 className="section-heading light-heading">What We <em>Offer</em></h2>
-      <div className="services-grid reveal">
+    <section id="services" className="section-light" aria-labelledby="services-heading">
+      <div className="section-label">Section 05</div>
+      <h2 className="section-heading" id="services-heading">What NEXCRAFT <em>Does</em></h2>
+      <p className="work-intro reveal">
+        Five disciplines handled by one person, so a project can move from identity to interface to working system without a handover.
+      </p>
+      <ul className="services-list">
         {SERVICES.map((s) => <ServiceCard key={s.num} {...s} />)}
-      </div>
+      </ul>
     </section>
   )
 }

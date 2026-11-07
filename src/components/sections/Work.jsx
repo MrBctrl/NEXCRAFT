@@ -13,6 +13,10 @@ export default function Work() {
     fetchVisiblePortfolioItems().then(setItems)
   }, [])
 
+  // Filtered items are removed from the grid (not just faded) so the grid
+  // reflows without gaps and hidden items cannot receive keyboard focus.
+  const visibleItems = filter === 'all' ? items : items.filter((i) => i.filter === filter)
+
   const openItem = (item) => {
     const group = items.filter((i) => (i.subcategory || i.filter) === (item.subcategory || item.filter))
     setActiveGroup(group)
@@ -20,11 +24,11 @@ export default function Work() {
   }
 
   return (
-    <section id="work" className="section-light">
+    <section id="work" className="section-light" aria-labelledby="work-heading">
       <div className="section-label">Section 03</div>
-      <h2 className="section-heading">Graphic <em>Design</em> Work</h2>
+      <h2 className="section-heading" id="work-heading">Graphic <em>Design</em> Work</h2>
       <p className="work-intro reveal">
-        A curated selection of branding, print, and digital design projects — each one built with intention.
+        A selection of branding, print and digital design projects. Open any project to see the full set.
       </p>
 
       <div className="filter-tabs reveal">
@@ -32,6 +36,7 @@ export default function Work() {
           <button
             key={tab.key}
             className={`filter-btn ${filter === tab.key ? 'active' : ''}`}
+            aria-pressed={filter === tab.key}
             onClick={() => setFilter(tab.key)}
           >
             {tab.label}
@@ -40,18 +45,18 @@ export default function Work() {
       </div>
 
       <div className="portfolio-grid reveal">
-        {items.map((item) => {
-          const hidden = filter !== 'all' && item.filter !== filter
+        {visibleItems.map((item) => {
           return (
             <div
               key={item.id}
-              className={`port-item ${hidden ? 'hidden' : ''}`}
+              className="port-item"
               tabIndex={0}
               role="button"
+              aria-label={`${item.title}, ${item.desc}. Open project`}
               onClick={() => openItem(item)}
               onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openItem(item) } }}
             >
-              <img src={item.images[0]} alt={item.title} loading="lazy" decoding="async" />
+              <img src={item.images[0]} alt="" loading="lazy" decoding="async" />
               <div className="port-overlay">
                 <div className="port-info">
                   <h3>{item.title}</h3>

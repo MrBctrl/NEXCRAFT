@@ -1,6 +1,7 @@
 import Hero from '../components/hero/Hero.jsx'
 import Marquee from '../components/shared/Marquee.jsx'
 import About from '../components/sections/About.jsx'
+import Founder from '../components/sections/Founder.jsx'
 import Services from '../components/sections/Services.jsx'
 import Work from '../components/sections/Work.jsx'
 import UIUX from '../components/sections/UIUX.jsx'
@@ -15,9 +16,10 @@ export default function Home() {
       <Hero />
       <Marquee />
       <About />
-      <Services />
+      <Founder />
       <Work />
       <UIUX />
+      <Services />
       <Contact />
     </>
   )

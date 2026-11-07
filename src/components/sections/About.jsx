@@ -1,39 +1,49 @@
-import SkillBar from '../shared/SkillBar.jsx'
-
-const SKILLS = [
-  { label: "Graphic Design / CorelDRAW", pct: 95 },
-  { label: "Brand Identity & Logo Design", pct: 90 },
-  { label: "Canva / Digital Ads", pct: 92 },
-  { label: "Web Dev (PHP/MySQL)", pct: 75 },
-  { label: "UI / UX Design", pct: 82 },
-  { label: "Mockups & Packaging", pct: 88 },
-  { label: "Motion Design", pct: 80 },
+const STAGES = [
+  {
+    num: '01',
+    title: 'Today',
+    text: 'NEXCRAFT is independent and founder-led. Brendan Okonji designs, builds and delivers the work personally, so there is one conversation and no layers between an idea and the result.',
+  },
+  {
+    num: '02',
+    title: 'Approach',
+    text: 'Design and development are treated as a single process. Brand, interface and code are decided together, so the finished product feels coherent instead of assembled.',
+  },
+  {
+    num: '03',
+    title: 'Direction',
+    text: 'The goal is to grow NEXCRAFT into a full creative technology practice, bringing in collaborators and capabilities as the work calls for them, without lowering the standard of craft.',
+  },
 ]
 
 export default function About() {
   return (
-    <section id="about" className="section-light">
+    <section id="about" className="section-light" aria-labelledby="about-heading">
       <div className="section-label">Section 01</div>
-      <h2 className="section-heading">About <em>Us</em></h2>
+      <h2 className="section-heading" id="about-heading">About <em>NEXCRAFT</em></h2>
       <div className="about-grid reveal">
         <div className="about-left">
-          <p className="about-text">
-            <strong>NEXCRAFT CREATIVE STUDIO</strong> is a systems-driven creative business dedicated to helping businesses build a professional digital presence that earns trust, creates value, and drives growth. We specialize in strategic branding, modern websites, and creative digital solutions designed to strengthen credibility and help businesses stand out in a competitive world.
+          <p className="about-lead">
+            Design and engineering, done by the same hands.
           </p>
           <p className="about-text">
-            Rather than simply creating designs, <strong>we focus on delivering meaningful digital experiences that support long-term business success</strong>. Every project is approached with creativity, strategy, and a commitment to building lasting value for our clients.
+            <strong>NEXCRAFT</strong> is an independent creative technology studio. It brings web development, interface design, graphic design, branding and workflow automation into one practice, so a project can move from identity to interface to working system without being handed from one party to the next.
           </p>
-          <div className="about-stats">
-            <div className="stat"><div className="stat-number">5+</div><div className="stat-label">Years Designing</div></div>
-            <div className="stat"><div className="stat-number">50+</div><div className="stat-label">Projects Done</div></div>
-            <div className="stat"><div className="stat-number">2-in-1</div><div className="stat-label">Design + Dev</div></div>
-            <div className="stat"><div className="stat-number">100%</div><div className="stat-label">Client Focused</div></div>
-          </div>
+          <p className="about-text">
+            The studio's belief is simple: <strong>a digital presence should earn trust before it asks for attention.</strong> That means clear structure, honest writing, considered typography, and code that is built to be maintained rather than only launched.
+          </p>
         </div>
-        <div className="about-right">
-          <div className="section-label" style={{ marginBottom: 28 }}>Technical Skills</div>
-          {SKILLS.map((s) => <SkillBar key={s.label} {...s} />)}
-        </div>
+        <ol className="about-stages">
+          {STAGES.map((s) => (
+            <li className="about-stage reveal" key={s.num}>
+              <span className="about-stage-num">{s.num}</span>
+              <div>
+                <h3 className="about-stage-title">{s.title}</h3>
+                <p className="about-stage-text">{s.text}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   )

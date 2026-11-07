@@ -11,11 +11,11 @@ export default function UIUX() {
   }, [])
 
   return (
-    <section id="uiux" className="section-dark">
+    <section id="uiux" className="section-dark" aria-labelledby="uiux-heading">
       <div className="section-label accent-label">Section 04</div>
-      <h2 className="section-heading light-heading">Web & <em>UI/UX</em> Work</h2>
+      <h2 className="section-heading light-heading" id="uiux-heading">Web & <em>UI/UX</em> Work</h2>
       <p className="work-intro reveal" style={{ color: 'rgba(245,240,232,0.5)' }}>
-        Web systems, interfaces, and digital products — built functional and designed beautifully.
+        Web systems, interfaces and digital products, designed and built end to end.
       </p>
 
       <SelectedWork />
