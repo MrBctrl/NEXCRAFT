@@ -4,8 +4,8 @@ export default function Hero() {
   return (
     <section className="hero" aria-labelledby="hero-title">
       <div className="hero-noise" aria-hidden="true"></div>
-      <div className="hero-bg-text" aria-hidden="true">NEXCRAFT</div>
-      <div className="hero-content">
+      <div className="hero-bg-text" data-parallax="0.35" aria-hidden="true">NEXCRAFT</div>
+      <div className="hero-content" data-parallax="-0.1">
         <div className="hero-tag" data-stagger style={{ '--i': 0 }}>
           <span className="hero-tag-dot" aria-hidden="true"></span>
           Independent Studio · Available for Projects

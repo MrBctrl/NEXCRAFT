@@ -1,3 +1,5 @@
+import NanoText from '../shared/NanoText.jsx'
+import NanoBlock from '../shared/NanoBlock.jsx'
 // Skills are grouped by how they are actually used. "Working" means used
 // in real projects; "Developing" means actively being learned. No
 // percentages: they implied precision that cannot honestly be claimed.
@@ -28,11 +30,11 @@ export default function Founder() {
   return (
     <section id="founder" className="section-dark" aria-labelledby="founder-heading">
       <div className="section-label accent-label">Section 02</div>
-      <h2 className="section-heading light-heading" id="founder-heading">The <em>Founder</em></h2>
+      <NanoText className="section-heading light-heading" id="founder-heading">The <em>Founder</em></NanoText>
 
       <div className="founder-grid">
-        <figure className="founder-photo reveal">
-          <div className="founder-photo-frame">
+        <figure className="founder-photo">
+          <NanoBlock className="founder-photo-frame" cols={7} rows={8}>
             <img
               src="/images/brendan-okonji.png"
               alt="Portrait of Brendan Okonji, founder of NEXCRAFT, wearing a dark blazer over a white open-collared shirt against a blue background"
@@ -41,7 +43,7 @@ export default function Founder() {
               loading="lazy"
               decoding="async"
             />
-          </div>
+          </NanoBlock>
           <figcaption>
             <span className="founder-cap-name">Brendan Okonji</span>
             <span className="founder-cap-role">Founder · Developer · Designer</span>

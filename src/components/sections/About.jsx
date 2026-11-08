@@ -1,3 +1,4 @@
+import NanoText from '../shared/NanoText.jsx'
 const STAGES = [
   {
     num: '01',
@@ -20,7 +21,7 @@ export default function About() {
   return (
     <section id="about" className="section-light" aria-labelledby="about-heading">
       <div className="section-label">Section 01</div>
-      <h2 className="section-heading" id="about-heading">About <em>NEXCRAFT</em></h2>
+      <NanoText className="section-heading" id="about-heading">About <em>NEXCRAFT</em></NanoText>
       <div className="about-grid reveal">
         <div className="about-left">
           <p className="about-lead">

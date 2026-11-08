@@ -1,3 +1,4 @@
+import NanoText from '../shared/NanoText.jsx'
 import ServiceCard from '../shared/ServiceCard.jsx'
 
 const SERVICES = [
@@ -12,7 +13,7 @@ export default function Services() {
   return (
     <section id="services" className="section-light" aria-labelledby="services-heading">
       <div className="section-label">Section 05</div>
-      <h2 className="section-heading" id="services-heading">What NEXCRAFT <em>Does</em></h2>
+      <NanoText className="section-heading" id="services-heading">What NEXCRAFT <em>Does</em></NanoText>
       <p className="work-intro reveal">
         Five disciplines handled by one person, so a project can move from identity to interface to working system without a handover.
       </p>

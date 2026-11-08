@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import Navbar from './components/navigation/Navbar.jsx'
 import Footer from './components/shared/Footer.jsx'
+import LogoSplash from './components/shared/LogoSplash.jsx'
 import ProgressBar from './components/shared/ProgressBar.jsx'
 import Home from './pages/Home.jsx'
 const FlagshipWorld = lazy(() => import('./pages/FlagshipWorld.jsx'))
@@ -40,6 +41,7 @@ export default function App() {
 
   return (
     <>
+      {!isAdmin && <LogoSplash />}
       {!isAdmin && <SiteChrome />}
 
       <Suspense fallback={null}>

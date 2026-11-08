@@ -1,3 +1,4 @@
+import NanoText from '../shared/NanoText.jsx'
 import { useState, useEffect } from 'react'
 import { filterTabs } from '../../data/portfolio.js'
 import { fetchVisiblePortfolioItems } from '../../services/portfolioService.js'
@@ -26,7 +27,7 @@ export default function Work() {
   return (
     <section id="work" className="section-light" aria-labelledby="work-heading">
       <div className="section-label">Section 03</div>
-      <h2 className="section-heading" id="work-heading">Graphic <em>Design</em> Work</h2>
+      <NanoText className="section-heading" id="work-heading">Graphic <em>Design</em> Work</NanoText>
       <p className="work-intro reveal">
         A selection of branding, print and digital design projects. Open any project to see the full set.
       </p>

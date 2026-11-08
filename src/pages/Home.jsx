@@ -7,9 +7,11 @@ import Work from '../components/sections/Work.jsx'
 import UIUX from '../components/sections/UIUX.jsx'
 import Contact from '../components/sections/Contact.jsx'
 import { useScrollReveal } from '../hooks/useScrollReveal.js'
+import { useParallax } from '../hooks/useParallax.js'
 
 export default function Home() {
   useScrollReveal()
+  useParallax()
 
   return (
     <>
